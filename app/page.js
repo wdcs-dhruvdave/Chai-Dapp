@@ -185,6 +185,9 @@ export default function Home() {
               )}
             </div>
           </div>
+          <footer>
+            <p className="text-center text-sm text-stone-500">Made by <a href="https://github.com/wdcs-dhruvdave" className="text-amber-500 hover:underline">Dhruv</a></p>
+          </footer>
 
         </div>
       </main>
