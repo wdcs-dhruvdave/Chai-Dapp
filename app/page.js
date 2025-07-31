@@ -166,7 +166,7 @@ export default function Home() {
               {memos.length > 0 ? (
                 [...memos].reverse().map((memo, index) => (
                   <div key={index} className="bg-white rounded-xl shadow-md p-5 border-l-4 border-amber-500 transition-transform hover:scale-[1.02]">
-                    <p className="text-lg font-semibold text-stone-800 mb-2">"{memo.message}"</p>
+                    <p className="text-lg font-semibold text-stone-800 mb-2">&quot;{memo.message}&quot;</p>
                     <div className="text-sm text-stone-500 flex flex-wrap items-center justify-between gap-2">
                       <span>From: <strong className="text-stone-700">{memo.name}</strong></span>
                       <span className="font-mono text-xs break-all">
