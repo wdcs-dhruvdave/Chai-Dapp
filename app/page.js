@@ -13,6 +13,7 @@ export default function Home() {
   const [account, setAccount] = useState('Not Connected');
   const [memos, setMemos] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [accountBalance, setAccountBalance] = useState(null);
 
   useEffect(() => {
     const connectWallet = async () => {
@@ -32,6 +33,10 @@ export default function Home() {
           const contract = new ethers.Contract(contractAddress, contractAbi, signer);
           
           setAccount(accounts[0]);
+
+          const accountRawBalance = await provider.getBalance(accounts[0]);
+          const accountBalance = ethers.formatEther(accountRawBalance);
+          setAccountBalance(accountBalance);
           setState({ provider, signer, contract });
 
         } else {
@@ -100,17 +105,22 @@ export default function Home() {
           <h1 className="text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-700 to-orange-500">
             Buy Me a Chai ☕
           </h1>
-          <div className="text-right">
             {account !== 'Not Connected' ? (
-              <span className="text-sm sm:text-base font-mono bg-stone-200 text-stone-700 rounded-full px-4 py-2">
-                {formatAddress(account)}
-              </span>
-            ) : (
-               <span className="text-sm sm:text-base font-mono bg-red-200 text-red-700 rounded-full px-4 py-2">
-                Not Connected
-              </span>
-            )}
+      <div className="text-right space-y-1">
+        <div className="text-sm sm:text-base font-mono bg-stone-200 text-stone-700 rounded-full px-4 py-2">
+          {formatAddress(account)}
+        </div>
+        {accountBalance && (
+          <div className="text-xs text-stone-600 font-medium">
+            Balance: {Number(accountBalance).toFixed(4)} ETH
           </div>
+        )}
+      </div>
+    ) : (
+      <span className="text-sm sm:text-base font-mono bg-red-200 text-red-700 rounded-full px-4 py-2">
+        Not Connected
+      </span>
+    )}
         </div>
       </header>
 
@@ -163,6 +173,7 @@ export default function Home() {
           <div className="lg:col-span-2">
             <h2 className="text-2xl font-semibold mb-6 text-center lg:text-left">Memos from Supporters</h2>
             <div className="space-y-4">
+              
               {memos.length > 0 ? (
                 [...memos].reverse().map((memo, index) => (
                   <div key={index} className="bg-white rounded-xl shadow-md p-5 border-l-4 border-amber-500 transition-transform hover:scale-[1.02]">
